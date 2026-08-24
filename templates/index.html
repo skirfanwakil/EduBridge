@@ -21,15 +21,19 @@
             margin: 0 auto;
         }
 
+        /* Improved Header Styles */
         header {
             background: #3b2a1d;
             color: #f7efd9;
-            border-bottom: 6px double #c8a96b;
-            box-shadow: 0 3px 0 #24180f;
+            border-bottom: 5px solid #c8a96b;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .header-inner {
-            padding: 22px 0 18px;
+            padding: 16px 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -39,41 +43,59 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
         .brand-mark {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border: 2px solid #d6b878;
+            border-radius: 4px;
             display: grid;
             place-items: center;
-            font-size: 25px;
+            font-size: 22px;
             background: #513a27;
+            color: #f7efd9;
+            box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
         }
 
         .brand h1 {
             margin: 0;
-            font-size: 29px;
-            letter-spacing: 2px;
+            font-size: 24px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
+            line-height: 1.1;
         }
 
         .brand p {
-            margin: 4px 0 0;
+            margin: 3px 0 0;
             color: #d9c9a8;
-            font-size: 13px;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
         nav a {
             color: #f7efd9;
             text-decoration: none;
-            margin-left: 20px;
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 3px;
+            transition: all 0.2s ease;
         }
 
-        nav a:hover { color: #d6b878; }
+        nav a:hover {
+            color: #ffffff;
+            background: rgba(214, 184, 120, 0.2);
+        }
 
         .hero {
             text-align: center;
@@ -298,8 +320,20 @@
         }
 
         @media (max-width: 760px) {
-            .header-inner { flex-direction: column; }
-            nav a { margin: 0 8px; }
+            .header-inner { 
+                flex-direction: column;
+                text-align: center;
+                gap: 12px;
+            }
+            .brand {
+                flex-direction: column;
+                gap: 6px;
+            }
+            nav {
+                justify-content: center;
+                gap: 10px;
+            }
+            nav a { margin: 0; }
             #scholarshipGrid { grid-template-columns: 1fr; }
             .hero { padding-top: 32px; }
             .pin-input { width: 100%; }
