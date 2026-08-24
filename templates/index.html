@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduBridge - Scholarship Directory</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: #f4ecd8;
+            color: #2f2519;
+            font-family: Georgia, "Times New Roman", serif;
+            min-height: 100vh;
+        }
+
+        .page {
+            width: min(1100px, 94%);
+            margin: 0 auto;
+        }
+
+        header {
+            background: #3b2a1d;
+            color: #f7efd9;
+            border-bottom: 6px double #c8a96b;
+            box-shadow: 0 3px 0 #24180f;
+        }
+
+        .header-inner {
+            padding: 22px 0 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-mark {
+            width: 48px;
+            height: 48px;
+            border: 2px solid #d6b878;
+            display: grid;
+            place-items: center;
+            font-size: 25px;
+            background: #513a27;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 29px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .brand p {
+            margin: 4px 0 0;
+            color: #d9c9a8;
+            font-size: 13px;
+        }
+
+        nav a {
+            color: #f7efd9;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        nav a:hover { color: #d6b878; }
+
+        .hero {
+            text-align: center;
+            padding: 45px 15px 28px;
+        }
+
+        .hero .label {
+            display: inline-block;
+            border: 1px solid #8d6e43;
+            padding: 6px 12px;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: #eadfca;
+        }
+
+        .hero h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            margin: 16px 0 10px;
+            color: #302116;
+            font-weight: 700;
+        }
+
+        .hero h2 span {
+            color: #76562f;
+        }
+
+        .hero p {
+            max-width: 720px;
+            margin: 0 auto;
+            line-height: 1.7;
+            font-size: 16px;
+            color: #5e4d3a;
+        }
+
+        .search-box {
+            background: #e8dcc2;
+            border: 2px solid #7c6240;
+            box-shadow: inset 0 0 0 4px #d6c6a5, 4px 4px 0 #806b4d;
+            padding: 22px;
+            margin: 18px auto 34px;
+            max-width: 920px;
+        }
+
+        .search-title {
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .pin-input {
+            width: 230px;
+            padding: 11px 13px;
+            background: #fffaf0;
+            color: #2f2519;
+            border: 1px solid #806b4d;
+            border-radius: 0;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        button {
+            border: 1px solid #6e5330;
+            background: #f5ead2;
+            color: #3a2a1c;
+            padding: 10px 15px;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 0;
+        }
+
+        button:hover {
+            background: #d7c19a;
+        }
+
+        .category-btn.active {
+            background: #49321f;
+            color: #fff7e5;
+            border-color: #49321f;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 14px;
+        }
+
+        .section-head {
+            border-top: 3px double #806b4d;
+            border-bottom: 1px solid #806b4d;
+            padding: 10px 4px;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-head h3 {
+            margin: 0;
+            font-size: 19px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .count {
+            font-size: 13px;
+            color: #725d43;
+        }
+
+        #scholarshipGrid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: #fffaf0;
+            border: 1px solid #927955;
+            padding: 20px;
+            box-shadow: 3px 3px 0 #c7b28e;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            box-shadow: 5px 5px 0 #a88d61;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .tag, .amount {
+            border: 1px solid #9a7a4a;
+            padding: 4px 7px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .tag { background: #eadfca; }
+        .amount { background: #e2ead9; color: #3d5a31; }
+
+        .card h4 {
+            font-size: 21px;
+            margin: 10px 0 13px;
+            line-height: 1.25;
+        }
+
+        .info {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #5b4a37;
+            margin: 7px 0;
+        }
+
+        .divider {
+            border-top: 1px dotted #a28b68;
+            margin: 16px 0 12px;
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .website {
+            display: inline-block;
+            background: #3d2b1e;
+            color: #fff7e5;
+            padding: 8px 12px;
+            text-decoration: none;
+            font-size: 12px;
+            border: 1px solid #21160f;
+        }
+
+        .website:hover { background: #684b2c; }
+
+        .muted {
+            color: #89745a;
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        .empty {
+            grid-column: 1 / -1;
+            background: #fffaf0;
+            border: 1px solid #927955;
+            padding: 35px;
+            text-align: center;
+        }
+
+        footer {
+            margin-top: 55px;
+            background: #3b2a1d;
+            color: #d8c8a8;
+            border-top: 6px double #c8a96b;
+            text-align: center;
+            padding: 25px 15px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 760px) {
+            .header-inner { flex-direction: column; }
+            nav a { margin: 0 8px; }
+            #scholarshipGrid { grid-template-columns: 1fr; }
+            .hero { padding-top: 32px; }
+            .pin-input { width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="page header-inner">
+        <div class="brand">
+            <div class="brand-mark">✦</div>
+            <div>
+                <h1>EduBridge</h1>
+                <p>Scholarship & Educational Assistance Directory</p>
+            </div>
+        </div>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="#explore">Directory</a>
+        </nav>
+    </div>
+</header>
+
+<main class="page">
+    <section class="hero">
+        <div class="label">Established for Students</div>
+        <h2>Find Your <span>Scholarship</span></h2>
+        <p>
+            A simple scholarship and educational assistance directory.
+            Search by PinCode or browse opportunities by category.
+        </p>
+    </section>
+
+    <section id="explore" class="search-box">
+        <div class="search-title">Scholarship Directory Search</div>
+
+        <div class="filter-row">
+            <input id="pincodeInput" class="pin-input" maxlength="6"
+                   placeholder="Enter 6-digit PinCode">
+            <button onclick="clearFilters()">Clear</button>
+        </div>
+
+        <div class="categories" id="categoryFilters">
+            <button class="category-btn active"
+                    onclick="filterCategory('All', this)">All</button>
+
+            {% for cat in categories %}
+            <button class="category-btn"
+                    onclick="filterCategory('{{ cat|e }}', this)">
+                {{ cat }}
+            </button>
+            {% endfor %}
+        </div>
+    </section>
+
+    <div class="section-head">
+        <h3>Available Opportunities</h3>
+        <div class="count"><span id="resultCount">{{ scholarships|length }}</span> Records</div>
+    </div>
+
+    <section id="scholarshipGrid">
+        {% for item in scholarships %}
+        <article class="card">
+            <div>
+                <div class="card-top">
+                    <span class="tag">{{ item.Category if item.Category else 'General' }}</span>
+                    <span class="amount">{{ item.Amount if item.Amount else 'Amount Varies' }}</span>
+                </div>
+
+                <h4>{{ item.Name }}</h4>
+
+                <p class="info">
+                    <strong>Address:</strong>
+                    {{ item.Address if item.Address else 'Not specified' }}
+                </p>
+
+                <p class="info">
+                    <strong>PinCode:</strong>
+                    {{ item.PinCode if item.PinCode else 'N/A' }}
+                </p>
+
+                <p class="info">
+                    <strong>Contact:</strong>
+                    {{ item.Contact if item.Contact else 'Not specified' }}
+                </p>
+            </div>
+
+            <div>
+                <div class="divider"></div>
+                <div class="card-bottom">
+                    <span class="muted">EduBridge Listing</span>
+
+                    {% if item.Website %}
+                    <a class="website"
+                       href="{{ item.Website if item.Website.startswith('http') else 'https://' + item.Website }}"
+                       target="_blank" rel="noopener noreferrer">
+                        Visit Website
+                    </a>
+                    {% else %}
+                    <span class="muted">No website</span>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </section>
+</main>
+
+<footer>
+    <div class="page">
+        <strong>EDUBRIDGE</strong> &nbsp; | &nbsp;
+        Scholarship Discovery Platform &nbsp; | &nbsp;
+        Developed by skirfanwakil &amp; Hanzala
+    </div>
+</footer>
+
+<script>
+    let currentCategory = "All";
+    const pincodeInput = document.getElementById("pincodeInput");
+    const grid = document.getElementById("scholarshipGrid");
+    const resultCount = document.getElementById("resultCount");
+
+    function filterCategory(category, button) {
+        currentCategory = category;
+
+        document.querySelectorAll(".category-btn").forEach(btn => {
+            btn.classList.remove("active");
+        });
+        button.classList.add("active");
+
+        fetchResults();
+    }
+
+    function clearFilters() {
+        pincodeInput.value = "";
+        currentCategory = "All";
+
+        document.querySelectorAll(".category-btn").forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        const all = document.querySelector(".category-btn");
+        if (all) all.classList.add("active");
+
+        fetchResults();
+    }
+
+    pincodeInput.addEventListener("input", function () {
+        const value = this.value.trim();
+        if (value.length === 6 || value.length === 0) {
+            fetchResults();
+        }
+    });
+
+    function escapeHtml(value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    function websiteUrl(value) {
+        if (!value) return "";
+        return /^https?:\/\//i.test(value) ? value : "https://" + value;
+    }
+
+    function renderResults(data) {
+        resultCount.textContent = data.length;
+        grid.innerHTML = "";
+
+        if (!data.length) {
+            grid.innerHTML = `
+                <div class="empty">
+                    <h3>No Records Found</h3>
+                    <p>Please try another PinCode or category.</p>
+                </div>`;
+            return;
+        }
+
+        data.forEach(item => {
+            const website = websiteUrl(item.Website);
+
+            grid.innerHTML += `
+                <article class="card">
+                    <div>
+                        <div class="card-top">
+                            <span class="tag">${escapeHtml(item.Category || "General")}</span>
+                            <span class="amount">${escapeHtml(item.Amount || "Amount Varies")}</span>
+                        </div>
+
+                        <h4>${escapeHtml(item.Name)}</h4>
+
+                        <p class="info">
+                            <strong>Address:</strong>
+                            ${escapeHtml(item.Address || "Not specified")}
+                        </p>
+
+                        <p class="info">
+                            <strong>PinCode:</strong>
+                            ${escapeHtml(item.PinCode || "N/A")}
+                        </p>
+
+                        <p class="info">
+                            <strong>Contact:</strong>
+                            ${escapeHtml(item.Contact || "Not specified")}
+                        </p>
+                    </div>
+
+                    <div>
+                        <div class="divider"></div>
+                        <div class="card-bottom">
+                            <span class="muted">EduBridge Listing</span>
+                            ${
+                                website
+                                ? `<a class="website" href="${escapeHtml(website)}"
+                                      target="_blank" rel="noopener noreferrer">
+                                      Visit Website
+                                   </a>`
+                                : `<span class="muted">No website</span>`
+                            }
+                        </div>
+                    </div>
+                </article>`;
+        });
+    }
+
+    function fetchResults() {
+        const pin = pincodeInput.value.trim();
+
+        const params = new URLSearchParams({
+            pincode: pin.length === 6 ? pin : "",
+            category: currentCategory
+        });
+
+        fetch(`/search?${params.toString()}`)
+            .then(response => response.json())
+            .then(renderResults)
+            .catch(() => {
+                grid.innerHTML = `
+                    <div class="empty">
+                        <h3>Unable to Load Records</h3>
+                        <p>Please try again.</p>
+                    </div>`;
+            });
+    }
+</script>
+</body>
+</html>
