@@ -439,6 +439,7 @@
 
 <script>
     let currentCategory = "All";
+    let originalData = [];
     const pincodeInput = document.getElementById("pincodeInput");
     const grid = document.getElementById("scholarshipGrid");
     const resultCount = document.getElementById("resultCount");
@@ -469,8 +470,10 @@
     }
 
     pincodeInput.addEventListener("input", function () {
-        const value = this.value.trim();
-        if (value.length === 6 || value.length === 0) {
+        const pin = this.value.trim();
+        if (originalData.length > 0) {
+            sortAndRender(originalData, pin);
+        } else {
             fetchResults();
         }
     });
@@ -489,7 +492,34 @@
         return /^https?:\/\//i.test(value) ? value : "https://" + value;
     }
 
-    function renderResults(data) {
+    /* Pincode Absolute Difference Sorting Algorithm */
+    function sortAndRender(data, userPin) {
+        let listToDisplay = [...data];
+
+        if (currentCategory !== "All") {
+            listToDisplay = listToDisplay.filter(item => 
+                (item.Category || "General").toLowerCase() === currentCategory.toLowerCase()
+            );
+        }
+
+        if (userPin && userPin.length === 6 && !isNaN(userPin)) {
+            const targetPin = parseInt(userPin, 10);
+
+            listToDisplay.sort((a, b) => {
+                const pinA = parseInt(a.PinCode, 10) || 999999;
+                const pinB = parseInt(b.PinCode, 10) || 999999;
+
+                const diffA = Math.abs(targetPin - pinA);
+                const diffB = Math.abs(targetPin - pinB);
+
+                return diffA - diffB; // Smallest distance comes first
+            });
+        }
+
+        renderGrid(listToDisplay, userPin);
+    }
+
+    function renderGrid(data, userPin) {
         resultCount.textContent = data.length;
         grid.innerHTML = "";
 
@@ -497,13 +527,19 @@
             grid.innerHTML = `
                 <div class="empty">
                     <h3>No Records Found</h3>
-                    <p>Please try another PinCode or category.</p>
+                    <p>Please try another category.</p>
                 </div>`;
             return;
         }
 
         data.forEach(item => {
             const website = websiteUrl(item.Website);
+            
+            let distanceInfo = "";
+            if (userPin && userPin.length === 6 && item.PinCode && !isNaN(item.PinCode)) {
+                const diff = Math.abs(parseInt(userPin, 10) - parseInt(item.PinCode, 10));
+                distanceInfo = `<span style="font-size: 11px; color: #8d6e43; margin-left: 8px;">(Diff: ${diff})</span>`;
+            }
 
             grid.innerHTML += `
                 <article class="card">
@@ -522,7 +558,7 @@
 
                         <p class="info">
                             <strong>PinCode:</strong>
-                            ${escapeHtml(item.PinCode || "N/A")}
+                            ${escapeHtml(item.PinCode || "N/A")} ${distanceInfo}
                         </p>
 
                         <p class="info">
@@ -552,14 +588,12 @@
     function fetchResults() {
         const pin = pincodeInput.value.trim();
 
-        const params = new URLSearchParams({
-            pincode: pin.length === 6 ? pin : "",
-            category: currentCategory
-        });
-
-        fetch(`/search?${params.toString()}`)
+        fetch(`/search?category=${encodeURIComponent(currentCategory)}`)
             .then(response => response.json())
-            .then(renderResults)
+            .then(data => {
+                originalData = data;
+                sortAndRender(data, pin);
+            })
             .catch(() => {
                 grid.innerHTML = `
                     <div class="empty">
