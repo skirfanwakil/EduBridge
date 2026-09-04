@@ -167,7 +167,7 @@ Applies Filter
    ↓
 Matching Records
    ↓
-Frontend Displays Results
+Frontend Displays Results text'''
 
 
 ## File Structure
