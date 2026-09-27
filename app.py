@@ -27,21 +27,40 @@ def get_data():
 
     if 'PinCode' in df.columns:
         df['PinCode'] = df['PinCode'].apply(clean_pincode)
+
+    # Standardize Category
+    if 'Category' in df.columns and 'Name' in df.columns:
+        def fill_cat(row):
+            cat = str(row['Category']).strip()
+            if cat in ['N/A', '', 'nan']:
+                name = str(row['Name']).lower()
+                if any(k in name for k in ['muslim', 'memon', 'bohra', 'islamic', 'dargah', 'azad']):
+                    return 'Muslim Minority'
+                return 'General'
+            return cat
+        df['Category'] = df.apply(fill_cat, axis=1)
     
     return df.to_dict(orient='records')
 
 @app.route('/')
 def home():
     scholarships = get_data()
-    return render_template('index.html', scholarships=scholarships)
+    categories = sorted(list(set([s['Category'] for s in scholarships if s.get('Category') and s['Category'] != 'N/A'])))
+    return render_template('index.html', scholarships=scholarships, categories=categories)
 
 @app.route('/api/search', methods=['GET'])
 def search_api():
     pincode_query = request.args.get('pincode', '').strip()
+    selected_category = request.args.get('category', '').strip()
     
     data = get_data()
+    
+    # 1. Selected Category filter
+    if selected_category and selected_category.lower() != 'all':
+        data = [item for item in data if str(item.get('Category', '')).lower() == selected_category.lower()]
+
     exact_results = []
-    nearby_results = []
+    nearby_list = []
 
     if not pincode_query:
         return jsonify({
@@ -53,21 +72,29 @@ def search_api():
     if pincode_query.isdigit():
         target_pin = int(pincode_query)
 
+    # 2. PinCode match and distance calculation
     for item in data:
         item_pin_str = str(item.get('PinCode', '')).strip()
         
-        # Exact match check
         if item_pin_str == pincode_query:
             exact_results.append(item)
         elif target_pin and item_pin_str.isdigit():
             item_pin = int(item_pin_str)
-            # Nearby pincode (+/- 2 range)
-            if abs(item_pin - target_pin) <= 2 and item_pin != target_pin:
-                nearby_results.append(item)
+            diff = abs(item_pin - target_pin)
+            nearby_item = item.copy()
+            nearby_item['distance'] = diff
+            nearby_list.append(nearby_item)
+        else:
+            nearby_item = item.copy()
+            nearby_item['distance'] = 999999
+            nearby_list.append(nearby_item)
+
+    # 3. Sort nearby by proximity (1st nearest order)
+    nearby_list.sort(key=lambda x: x['distance'])
 
     return jsonify({
         'exact': exact_results,
-        'nearby': nearby_results
+        'nearby': nearby_list
     })
 
 if __name__ == '__main__':
