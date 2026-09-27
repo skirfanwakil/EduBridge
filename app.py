@@ -4,7 +4,6 @@ import os
 
 app = Flask(__name__)
 
-# Path to dataset relative to directory root
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 EXCEL_FILE = os.path.join(BASE_DIR, 'data', 'EduBridge_Database_Data.xlsx')
 
@@ -15,55 +14,61 @@ def get_data():
     df = pd.read_excel(EXCEL_FILE)
     df = df.fillna('N/A')
     
-    # Standardize PinCode string representation
-    if 'PinCode' in df.columns:
-        df['PinCode'] = df['PinCode'].apply(
-            lambda x: str(int(x)) if isinstance(x, (int, float)) and not pd.isna(x) and str(x) != 'N/A' else str(x)
-        )
-    
-    # Fill empty categories
-    if 'Category' in df.columns and 'Name' in df.columns:
-        def fill_cat(row):
-            cat = str(row['Category']).strip()
-            if cat in ['N/A', '', 'nan']:
-                name = str(row['Name']).lower()
-                if any(k in name for k in ['muslim', 'memon', 'bohra', 'islamic', 'dargah', 'azad']):
-                    return 'Muslim Minority'
-                return 'General'
-            return cat
-        df['Category'] = df.apply(fill_cat, axis=1)
+    def clean_pincode(x):
+        try:
+            if isinstance(x, (int, float)) and not pd.isna(x):
+                return str(int(x))
+            val = str(x).strip()
+            if val.endswith('.0'):
+                val = val[:-2]
+            return val
+        except:
+            return str(x).strip()
 
+    if 'PinCode' in df.columns:
+        df['PinCode'] = df['PinCode'].apply(clean_pincode)
+    
     return df.to_dict(orient='records')
 
 @app.route('/')
 def home():
     scholarships = get_data()
-    categories = sorted(list(set([s['Category'] for s in scholarships if s.get('Category') and s['Category'] != 'N/A'])))
-    return render_template('index.html', scholarships=scholarships, categories=categories)
+    return render_template('index.html', scholarships=scholarships)
 
 @app.route('/api/search', methods=['GET'])
 def search_api():
-    query = request.args.get('q', '').lower().strip()
-    category = request.args.get('category', '').strip()
+    pincode_query = request.args.get('pincode', '').strip()
     
     data = get_data()
-    filtered = []
+    exact_results = []
+    nearby_results = []
+
+    if not pincode_query:
+        return jsonify({
+            'exact': data,
+            'nearby': []
+        })
+
+    target_pin = None
+    if pincode_query.isdigit():
+        target_pin = int(pincode_query)
 
     for item in data:
-        match_query = (
-            query in str(item.get('Name', '')).lower() or
-            query in str(item.get('Address', '')).lower() or
-            query in str(item.get('PinCode', '')).lower() or
-            query in str(item.get('Contact', '')).lower()
-        )
+        item_pin_str = str(item.get('PinCode', '')).strip()
         
-        item_cat = str(item.get('Category', '')).lower()
-        match_category = (category == '' or category.lower() == 'all' or item_cat == category.lower())
+        # Exact match check
+        if item_pin_str == pincode_query:
+            exact_results.append(item)
+        elif target_pin and item_pin_str.isdigit():
+            item_pin = int(item_pin_str)
+            # Nearby pincode (+/- 2 range)
+            if abs(item_pin - target_pin) <= 2 and item_pin != target_pin:
+                nearby_results.append(item)
 
-        if match_query and match_category:
-            filtered.append(item)
-
-    return jsonify(filtered)
+    return jsonify({
+        'exact': exact_results,
+        'nearby': nearby_results
+    })
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
