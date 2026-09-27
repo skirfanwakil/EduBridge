@@ -3,208 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduBridge | Scholarship Directory</title>
+    <title>EduBridge | PinCode Search</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #f8fafc;
-            color: #1e293b;
-            padding-bottom: 60px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header {
-            background: #0f172a;
-            color: #fff;
-            padding: 24px 0;
-            border-bottom: 3px solid #0284c7;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo h1 {
-            font-size: 26px;
-            color: #38bdf8;
-            font-weight: 700;
-        }
-
-        .logo p {
-            font-size: 13px;
-            color: #94a3b8;
-            margin-top: 2px;
-        }
-
-        .badge {
-            background: #0284c7;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .search-section {
-            margin: 40px 0 30px;
-            text-align: center;
-        }
-
-        .search-section h2 {
-            font-size: 32px;
-            color: #0f172a;
-            margin-bottom: 8px;
-        }
-
-        .search-section h2 span {
-            color: #0284c7;
-        }
-
-        .search-section p {
-            color: #64748b;
-            font-size: 16px;
-        }
-
-        .filter-box {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 24px;
-            flex-wrap: wrap;
-        }
-
-        .filter-box input, .filter-box select {
-            padding: 14px 18px;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            font-size: 15px;
-            outline: none;
-            background: white;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            transition: all 0.2s ease;
-        }
-
-        .filter-box input:focus, .filter-box select:focus {
-            border-color: #0284c7;
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
-        }
-
-        .filter-box input {
-            width: 380px;
-        }
-
-        .stats {
-            margin-top: 18px;
-            font-size: 14px;
-            color: #64748b;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-            gap: 24px;
-        }
-
-        .card {
-            background: #fff;
-            border-radius: 14px;
-            padding: 24px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
-            margin-bottom: 14px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            font-size: 12px;
-            font-weight: 600;
-            padding: 5px 12px;
-            border-radius: 20px;
-        }
-
-        .category-tag {
-            background: #e0f2fe;
-            color: #0369a1;
-        }
-
-        .amount-tag {
-            background: #dcfce7;
-            color: #15803d;
-        }
-
-        .card h3 {
-            font-size: 19px;
-            margin-bottom: 12px;
-            color: #0f172a;
-            line-height: 1.3;
-        }
-
-        .card p {
-            font-size: 14px;
-            color: #475569;
-            margin-bottom: 8px;
-            line-height: 1.5;
-        }
-
-        .card-footer {
-            margin-top: 18px;
-            padding-top: 14px;
-            border-top: 1px solid #f1f5f9;
-        }
-
-        .btn {
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-            text-decoration: none;
-            background: #0284c7;
-            color: white;
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-
-        .btn:hover {
-            background: #0369a1;
-        }
-
-        .no-link {
-            display: block;
-            text-align: center;
-            font-size: 13px;
-            color: #94a3b8;
-            font-style: italic;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: #f8fafc; color: #1e293b; padding-bottom: 60px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header { background: #0f172a; color: #fff; padding: 24px 0; border-bottom: 3px solid #0284c7; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo h1 { font-size: 26px; color: #38bdf8; font-weight: 700; }
+        .badge { background: #0284c7; color: white; padding: 6px 14px; border-radius: 20px; font-size: 12px; }
+        .search-section { margin: 40px 0 30px; text-align: center; }
+        .filter-box { display: flex; justify-content: center; margin-top: 24px; }
+        .filter-box input { padding: 14px 18px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 16px; outline: none; width: 320px; text-align: center; }
+        .section-title { font-size: 22px; color: #0f172a; margin: 30px 0 16px; display: flex; align-items: center; gap: 10px; }
+        .count-badge { background: #e0f2fe; color: #0369a1; font-size: 13px; padding: 4px 10px; border-radius: 12px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 24px; }
+        .card { background: #fff; border-radius: 14px; padding: 24px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+        .tag { font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; }
+        .pin-tag { background: #fef3c7; color: #92400e; }
+        .amount-tag { background: #dcfce7; color: #15803d; }
+        .btn { display: inline-block; width: 100%; text-align: center; text-decoration: none; background: #0284c7; color: white; padding: 10px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -213,112 +31,90 @@
         <div class="container navbar">
             <div class="logo">
                 <h1>EduBridge</h1>
-                <p>Scholarship & Educational Assistance Directory</p>
+                <p>PinCode Based Scholarship Finder</p>
             </div>
-            <span class="badge">Vercel Ready</span>
+            <span class="badge">PinCode Search</span>
         </div>
     </header>
 
     <main class="container">
         <section class="search-section">
-            <h2>Find Your <span>Scholarship</span></h2>
-            <p>Search opportunities by Name, Address, PinCode, or Category.</p>
+            <h2>Search Scholarships by <span>PinCode</span></h2>
+            <p>Enter your 6-digit PinCode to view exact and nearby scholarships.</p>
 
             <div class="filter-box">
-                <input type="text" id="searchInput" placeholder="Search by PinCode, Name, or Address...">
-                <select id="categorySelect">
-                    <option value="all">All Categories</option>
-                    {% for cat in categories %}
-                        <option value="{{ cat }}">{{ cat }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="stats">
-                <span>Showing <strong id="recordCount">{{ scholarships|length }}</strong> Opportunities</span>
+                <input type="text" id="pincodeInput" placeholder="Enter PinCode (e.g. 400001)..." maxlength="6">
             </div>
         </section>
 
-        <section id="scholarshipGrid" class="grid">
-            {% for s in scholarships %}
-            <div class="card">
-                <div>
-                    <div class="card-header">
-                        <span class="tag category-tag">{{ s.Category }}</span>
-                        <span class="tag amount-tag">{{ s.Amount }}</span>
-                    </div>
-                    <h3>{{ s.Name }}</h3>
-                    <p><strong>📍 Address:</strong> {{ s.Address }}</p>
-                    <p><strong>📮 PinCode:</strong> {{ s.PinCode }}</p>
-                    <p><strong>📞 Contact:</strong> {{ s.Contact }}</p>
-                </div>
-                
-                <div class="card-footer">
-                    {% if s.Website != 'N/A' and 'http' in s.Website %}
-                        <a href="{{ s.Website }}" target="_blank" class="btn">Visit Website</a>
-                    {% elif s.Website != 'N/A' %}
-                        <a href="https://{{ s.Website }}" target="_blank" class="btn">Visit Website</a>
-                    {% else %}
-                        <span class="no-link">No Website Available</span>
-                    {% endif %}
-                </div>
+        <!-- Exact Results -->
+        <section>
+            <div class="section-title">
+                📍 Exact PinCode Results <span id="exactCount" class="count-badge">0</span>
             </div>
-            {% endfor %}
+            <div id="exactGrid" class="grid"></div>
+        </section>
+
+        <!-- Nearby Results -->
+        <section style="margin-top: 40px;">
+            <div class="section-title">
+                🗺️ Nearby PinCode Results <span id="nearbyCount" class="count-badge">0</span>
+            </div>
+            <div id="nearbyGrid" class="grid"></div>
         </section>
     </main>
 
     <script>
-        const searchInput = document.getElementById('searchInput');
-        const categorySelect = document.getElementById('categorySelect');
-        const scholarshipGrid = document.getElementById('scholarshipGrid');
-        const recordCount = document.getElementById('recordCount');
+        const pincodeInput = document.getElementById('pincodeInput');
+        const exactGrid = document.getElementById('exactGrid');
+        const nearbyGrid = document.getElementById('nearbyGrid');
+        const exactCount = document.getElementById('exactCount');
+        const nearbyCount = document.getElementById('nearbyCount');
 
-        function fetchFilteredData() {
-            const query = searchInput.value;
-            const category = categorySelect.value;
+        function createCard(item) {
+            let websiteBtn = (item.Website && item.Website !== 'N/A') 
+                ? `<a href="${item.Website.startsWith('http') ? item.Website : 'https://' + item.Website}" target="_blank" class="btn">Visit Website</a>` 
+                : `<span class="no-link">No Website Available</span>`;
 
-            fetch(`/api/search?q=${encodeURIComponent(query)}&category=${encodeURIComponent(category)}`)
+            return `
+                <div class="card">
+                    <div>
+                        <div class="card-header" style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                            <span class="tag pin-tag">📮 PinCode: ${item.PinCode || 'N/A'}</span>
+                            <span class="tag amount-tag">${item.Amount || 'Amount Varies'}</span>
+                        </div>
+                        <h3 style="margin-bottom:10px;">${item.Name || 'N/A'}</h3>
+                        <p style="margin-bottom:6px;"><strong>📍 Address:</strong> ${item.Address || 'N/A'}</p>
+                        <p style="margin-bottom:6px;"><strong>📞 Contact:</strong> ${item.Contact || 'N/A'}</p>
+                    </div>
+                    <div style="margin-top:16px; padding-top:12px; border-top:1px solid #f1f5f9;">
+                        ${websiteBtn}
+                    </div>
+                </div>
+            `;
+        }
+
+        function fetchPinCodeData() {
+            const pin = pincodeInput.value.trim();
+
+            fetch(`/api/search?pincode=${encodeURIComponent(pin)}`)
                 .then(response => response.json())
                 .then(data => {
-                    renderCards(data);
-                    recordCount.innerText = data.length;
+                    exactCount.innerText = data.exact.length;
+                    exactGrid.innerHTML = data.exact.length === 0 
+                        ? `<p style="color:#64748b;">No exact scholarships found for this PinCode.</p>` 
+                        : data.exact.map(item => createCard(item)).join('');
+
+                    nearbyCount.innerText = data.nearby.length;
+                    nearbyGrid.innerHTML = data.nearby.length === 0 
+                        ? `<p style="color:#64748b;">No nearby scholarships found.</p>` 
+                        : data.nearby.map(item => createCard(item)).join('');
                 })
                 .catch(err => console.error("Error fetching data:", err));
         }
 
-        function renderCards(data) {
-            if (data.length === 0) {
-                scholarshipGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 50px 0; font-size: 16px;">No scholarships found matching your search criteria.</p>`;
-                return;
-            }
-
-            scholarshipGrid.innerHTML = data.map(item => {
-                let websiteBtn = (item.Website && item.Website !== 'N/A') 
-                    ? `<a href="${item.Website.startsWith('http') ? item.Website : 'https://' + item.Website}" target="_blank" class="btn">Visit Website</a>` 
-                    : `<span class="no-link">No Website Available</span>`;
-
-                return `
-                    <div class="card">
-                        <div>
-                            <div class="card-header">
-                                <span class="tag category-tag">${item.Category || 'General'}</span>
-                                <span class="tag amount-tag">${item.Amount || 'Amount Varies'}</span>
-                            </div>
-                            <h3>${item.Name || 'N/A'}</h3>
-                            <p><strong>📍 Address:</strong> ${item.Address || 'N/A'}</p>
-                            <p><strong>📮 PinCode:</strong> ${item.PinCode || 'N/A'}</p>
-                            <p><strong>📞 Contact:</strong> ${item.Contact || 'N/A'}</p>
-                        </div>
-                        <div class="card-footer">
-                            ${websiteBtn}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        searchInput.addEventListener('input', fetchFilteredData);
-        categorySelect.addEventListener('change', fetchFilteredData);
+        pincodeInput.addEventListener('input', fetchPinCodeData);
+        fetchPinCodeData();
     </script>
 </body>
 </html>
